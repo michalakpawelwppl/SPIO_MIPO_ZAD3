@@ -3,13 +3,24 @@ using System.Collections;
 
 namespace Bank
 {
-    public class Rachunek
+    public class Rachunek : IRachunek
     {
         private String numer;
         private String imie, nazwisko;
         private int saldo;
-        private int dopuszczalnyDebet;
-        private ArrayList historia = new ArrayList();
+        protected ArrayList historia = new ArrayList();
+
+        public ArrayList Historia
+        {
+            get
+            {
+                return historia;
+            }
+            set
+            {
+                historia = value;
+            }
+        }
 
         /// <summary>
         /// Utworzenie rachunku.
@@ -19,10 +30,14 @@ namespace Bank
         /// <param name="nazwisko">Nazwisko właściciela rachunku</param>
         public Rachunek(String numer, String imie, String nazwisko)
         {
-            numer = numer;
-            imie = imie;
-            nazwisko = nazwisko;
+            this.numer = numer;
+            this.imie = imie;
+            this.nazwisko = nazwisko;
             saldo = 0;
+        }
+        public Rachunek()
+        {
+
         }
 
         /// <summary>
@@ -50,24 +65,6 @@ namespace Bank
         }
 
         /// <summary>
-        /// Ustawia dopuszczalny debet na podaną wartość.
-        /// </summary>
-        /// <param name="debet">Wartość dopuszczalnego debetu</param>
-        public void UstawDebet(int debet)
-        {
-            if (debet > 100)
-                dopuszczalnyDebet = debet;
-        }
-
-        /// <summary>
-        /// Zwraca wartość dopuszczalnego debetu.
-        /// </summary>
-        public int DopuszczalnyDebet()
-        {
-            return dopuszczalnyDebet;
-        }
-
-        /// <summary>
         /// Wyświetla historię rachunku.
         /// </summary>
         public void PiszHistorie()
@@ -80,7 +77,7 @@ namespace Bank
         /// </summary>
         /// <param name="kwota">Wysokość wpłacanej kwoty</param>
         /// <returns>0</returns>
-        public int Wplata(int kwota)
+        public virtual int Wplata(int kwota)
         {
             saldo += kwota;
             historia.Add("Wpłata: " + kwota + ", saldo: " + saldo);
@@ -92,14 +89,15 @@ namespace Bank
         /// </summary>
         /// <param name="kwota"></param>
         /// <returns>0 - jeżeli operacja powiedzie się, -1 - jeżeli nie powiedzie się</returns>
-        public int Wyplata(int kwota)
+        public virtual int Wyplata(int kwota)
         {
-            if (saldo + dopuszczalnyDebet >= kwota)
+            if (saldo >= kwota)
             {
                 saldo -= kwota;
                 historia.Add("Wypłata: " + kwota + ", saldo: " + saldo);
                 return 0;
             }
+            else
             historia.Add("Nieudana wypłata: " + kwota + ", saldo: " + saldo);
             return -1;
         }

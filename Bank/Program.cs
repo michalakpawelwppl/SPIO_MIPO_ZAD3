@@ -1,4 +1,6 @@
-﻿namespace Bank
+﻿using System;
+
+namespace Bank
 {
     class Program
     {
@@ -16,10 +18,27 @@
             
             pkoBp.Przelew("13", "11", 100);
             pkoBp.Przelew(r15, r11, 100);
-            
-            Console.Writeline("R11: " + r11.Saldo());
-            Console.Writeline("R13: " + r13.Saldo());
-            Console.Writeline("R15: " + r15.Saldo());
+
+            pkoBp.UstawDebet(r11, 100);
+            pkoBp.UstawDebet(r11, 200);
+           
+            Console.WriteLine("R11: " + r11.Saldo());
+            Console.WriteLine("R13: " + r13.Saldo());
+            Console.WriteLine("R15: " + r15.Saldo());
+
+            pkoBp.Szukaj("11").Wyplata(1150);
+            try
+            {
+                Console.WriteLine("R11, dopuszczalny debet: " + (pkoBp.Szukaj("11") as RachunekDebetowy).DopuszczalnyDebet);
+                Console.WriteLine("R11, aktualny debet: " + (pkoBp.Szukaj("11") as RachunekDebetowy).Debet);
+
+            }
+            catch (Exception ex) { };
+
+
+
+
+            Console.ReadKey();
         }
     }
 }

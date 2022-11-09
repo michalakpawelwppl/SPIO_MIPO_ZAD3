@@ -42,9 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bank.cs" />
+    <Compile Include="IRachunek.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rachunek.cs" />
+    <Compile Include="RachunekDebetowy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

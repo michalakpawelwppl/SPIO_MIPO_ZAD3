@@ -22,13 +22,26 @@ namespace Bank
         }
 
         /// <summary>
+        /// Ustawia dopuszczalny debet na podaną wartość.
+        /// </summary>
+        /// <param name="debet">Wartość dopuszczalnego debetu</param>
+        public void UstawDebet(Rachunek rachunek, int dopuszczalnyDebet)
+        {
+            if (rachunek is RachunekDebetowy)
+            {
+                rachunki[rachunek.Numer()] = new RachunekDebetowy(rachunek, dopuszczalnyDebet - (rachunek as RachunekDebetowy).DopuszczalnyDebet);
+            }
+            rachunki[rachunek.Numer()] = new RachunekDebetowy(rachunek, dopuszczalnyDebet);
+        }
+
+        /// <summary>
         /// Wyszukiwanie rachunku.
         /// </summary>
         /// <param name="numer">Numer rachunku</param>
         /// <returns>Obiekt rachunku, jeźeli zostanie znaleziony, i null, jeżeli go nie ma.</returns>
         public Rachunek Szukaj(String numer)
         {
-            return (Rachunek) rachunki[numer];
+            return (Rachunek)rachunki[numer];
         }
 
         /// <summary>
@@ -43,7 +56,7 @@ namespace Bank
             Rachunek rachunek1 = Szukaj(numer1);
             Rachunek rachunek2 = Szukaj(numer2);
 
-            return Przelew(rachunek1, rachunek1, kwota);
+            return Przelew(rachunek1, rachunek2, kwota);
         }
 
         /// <summary>

@@ -4,7 +4,12 @@ namespace Bank
 {
     public static class KIR
     {
-        public static Dictionary<string, Bank> tabelaBanków { get; private set; }
+        public static Dictionary<string, Bank> tabelaBanków;
+
+        static KIR()
+        {
+            tabelaBanków = new Dictionary<string, Bank>();
+        }
 
         public static void przekazPrzelew(Przelew przelew)
         {
@@ -15,11 +20,9 @@ namespace Bank
 
         public static Bank szukajBank(string nazwa)
         {
-            if (tabelaBanków[nazwa] != null)
-            {
-                return tabelaBanków[nazwa];
-            }
-            else return null;
+            tabelaBanków.TryGetValue(nazwa, out Bank bank);
+            return bank;
+            
         }
 
     }

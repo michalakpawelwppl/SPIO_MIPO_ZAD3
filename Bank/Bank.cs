@@ -63,10 +63,10 @@ namespace Bank
             if (Szukaj(rachunek2.Numer()) == null)
             {
                 KIR.przekazPrzelew(new Przelew(rachunek2, this, rachunek1, bankNadawcy, kwota));
-                return 0;
+                return 1;
             }
 
-            else if (rachunek1.Wyplata(kwota) > 0)
+            else if (rachunek1.Wyplata(kwota) == 0)
             {
                 rachunek2.Wplata(kwota);
                 return 1;

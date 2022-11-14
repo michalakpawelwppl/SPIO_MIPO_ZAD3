@@ -4,23 +4,16 @@
     {
         public override int ObliczOdsetki(int saldo)
         {
-            int odsetki = 0;
-            var stopaPodstawowa = 0.01;
-            if (saldo < 100000)
+            if (saldo > 1000 && saldo < 2000)
             {
-                odsetki = (int)(saldo * stopaPodstawowa);
+                return 100 + (int)0.02 * (saldo - 10000);
             }
-            else
-            {
-                odsetki = (int)(100000 * stopaPodstawowa);
-                odsetki += (int)(saldo * 0.05);
-            }
-            return odsetki;
+            return 0;
         }
 
         public override string Opis()
         {
-            return "Mechanizm odsetkowyB: do sdalda 100.000,00 odsetki liczone wg stopy procentowej 1%, saldo powyżej 100.000,00 wg stopy procentowej 5%";
+            return "Mechanizm odsetkowy B: liniowe obliczanie odsetek dla salda pomiędzy 1000zł a 2000zł ";
 
         }
     }

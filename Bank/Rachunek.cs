@@ -92,7 +92,8 @@ namespace Bank
         /// </summary>
         public void PiszHistorie()
         {
-            Console.WriteLine(historia);
+            foreach(var item in historia)
+                Console.WriteLine(item);
         }
 
         /// <summary>
@@ -130,7 +131,10 @@ namespace Bank
         public int Odsetki()
         {
             var odsetki = _mechanizmOdsetkowy.ObliczOdsetki(Saldo());
+
             historia.Add("Naliczono odsetki w kwocie " + odsetki);
+            historia.Add(_mechanizmOdsetkowy.Opis());
+
 
             return odsetki;
         }

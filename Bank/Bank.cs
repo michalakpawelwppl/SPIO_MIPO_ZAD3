@@ -55,7 +55,7 @@ namespace Bank
         /// <returns>0 - jeżeli przelew się nie powiedzie, 1 - jeżeli przelew się powiedzie</returns>
         public int Przelew(Rachunek rachunek1, Rachunek rachunek2, int kwota)
         {
-            if (rachunek1.Wyplata(kwota) > 0)
+            if (rachunek1.Wyplata(kwota) == 0)
             {
                 rachunek2.Wplata(kwota);
                 return 1;

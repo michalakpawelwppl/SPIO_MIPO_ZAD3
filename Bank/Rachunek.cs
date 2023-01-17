@@ -131,10 +131,10 @@ namespace Bank
         public int Odsetki()
         {
             var odsetki = _mechanizmOdsetkowy.ObliczOdsetki(Saldo());
+            saldo+=odsetki;
 
-            historia.Add("Naliczono odsetki w kwocie " + odsetki);
+            historia.Add("Naliczono odsetki w kwocie " + odsetki+", saldo: "+saldo);
             historia.Add(_mechanizmOdsetkowy.Opis());
-
 
             return odsetki;
         }

@@ -21,10 +21,12 @@ namespace Bank
 
             r11.Odsetki();
             r11.ZmienMechanizmOdsetkowy(new MechanizmOdsetkowyC());
+            r11.Wplata(200000);
             r11.Odsetki();
             
             Console.WriteLine("R11: ");
             r11.PiszHistorie();
+            Console.WriteLine("r11:" + r11.Saldo());
             Console.WriteLine("\nR13: ");
             r13.PiszHistorie();
             Console.WriteLine("\nR15: ");

@@ -10,6 +10,7 @@ namespace Bank
         private int saldo;
         private int dopuszczalnyDebet;
         private ArrayList historia = new ArrayList();
+        private MechanizmOdsetkowy _mechanizmOdsetkowy;
 
         /// <summary>
         /// Utworzenie rachunku.
@@ -17,12 +18,32 @@ namespace Bank
         /// <param name="numer">Numer rachunku</param>
         /// <param name="imie">Imię właściciela rachunku</param>
         /// <param name="nazwisko">Nazwisko właściciela rachunku</param>
-        public Rachunek(String numerr, String imiee, String nazwiskoo)
+        public Rachunek(String numer, String imie, String nazwisko, MechanizmOdsetkowy mechanizmOdsetkowy)
+
         {
             numer = numerr;
             imie = imiee;
             nazwisko = nazwiskoo;
             saldo = 0;
+            _mechanizmOdsetkowy = mechanizmOdsetkowy;
+        }
+
+        public Rachunek(String numer, String imie, String nazwisko)
+        {
+            numer = numer;
+            imie = imie;
+            nazwisko = nazwisko;
+            saldo = 0; 
+            _mechanizmOdsetkowy = new MechanizmOdsetkowyA();
+
+        }
+
+        /// <summary>
+        /// Zmienia mechanizm odsetkowy.
+        /// </summary>
+        public void ZmienMechanizmOdsetkowy(MechanizmOdsetkowy nowyMechanizm)
+        {
+            this._mechanizmOdsetkowy = nowyMechanizm;
         }
 
         /// <summary>
@@ -110,16 +131,11 @@ namespace Bank
         /// </summary>
         public int Odsetki()
         {
-            int odsetki = 0;
+            var odsetki = _mechanizmOdsetkowy.ObliczOdsetki(Saldo());
+            saldo+=odsetki;
 
-            if (saldo < 10000)
-                odsetki = (int)0.01 * saldo;
-            else if (saldo < 50000)
-                odsetki = 100 + (int)0.02 * (saldo - 10000);
-            else
-                odsetki = 100 + 800 + (int)0.03 * (saldo - 50000);
-
-            historia.Add("Naliczono odsetki w kwocie " + odsetki);
+            historia.Add("Naliczono odsetki w kwocie " + odsetki+", saldo: "+saldo);
+            historia.Add(_mechanizmOdsetkowy.Opis());
 
             return odsetki;
         }

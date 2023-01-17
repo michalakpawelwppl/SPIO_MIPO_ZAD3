@@ -35,16 +35,21 @@ namespace Bank
         /// Przelew w kwocie "kwota" z rachunku o numerze "numer1" na rachunek o numerze "numer2"
         /// </summary>
         /// <param name="numer1"></param>
+        /// <param name="nazwaBanku1"></param>
         /// <param name="numer2"></param>
+        /// <param name="nazwaBanku2"></param>
         /// <param name="kwota"></param>
         /// <returns>0 - jeżeli przelew się nie powiedzie, 1 - jeżeli przelew się powiedzie</returns>
-        public int Przelew(String numer1, String numer2, int kwota)
+        public int Przelew(String numer1, string nazwaBanku1, String numer2, string nazwaBanku2, int kwota)
         {
             Rachunek rachunek1 = Szukaj(numer1);
             Rachunek rachunek2 = Szukaj(numer2);
+            Bank bank1 = KIR.szukajBank(nazwaBanku1);
+            Bank bank2 = KIR.szukajBank(nazwaBanku2);
 
-            return Przelew(rachunek1, rachunek1, kwota);
+            return Przelew(rachunek1, bank1, rachunek1, bank2, kwota);
         }
+
 
         /// <summary>
         /// Przelew w kwocie "kwota" z rachunku "rachunek1" na rachunek "rachunek2"
@@ -53,9 +58,15 @@ namespace Bank
         /// <param name="rachunek2"></param>
         /// <param name="kwota"></param>
         /// <returns>0 - jeżeli przelew się nie powiedzie, 1 - jeżeli przelew się powiedzie</returns>
-        public int Przelew(Rachunek rachunek1, Rachunek rachunek2, int kwota)
+        public int Przelew(Rachunek rachunek1, Bank bankNadawcy, Rachunek rachunek2, Bank bankOdbiorcy, int kwota)
         {
-            if (rachunek1.Wyplata(kwota) == 0)
+            if (Szukaj(rachunek2.Numer()) == null)
+            {
+                KIR.przekazPrzelew(new Przelew(rachunek2, this, rachunek1, bankNadawcy, kwota));
+                return 1;
+            }
+
+            else if (rachunek1.Wyplata(kwota) == 0)
             {
                 rachunek2.Wplata(kwota);
                 return 1;

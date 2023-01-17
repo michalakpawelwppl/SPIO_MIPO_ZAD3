@@ -19,10 +19,11 @@ namespace Bank
         /// <param name="imie">Imię właściciela rachunku</param>
         /// <param name="nazwisko">Nazwisko właściciela rachunku</param>
         public Rachunek(String numer, String imie, String nazwisko, MechanizmOdsetkowy mechanizmOdsetkowy)
+
         {
-            numer = numer;
-            imie = imie;
-            nazwisko = nazwisko;
+            numer = numerr;
+            imie = imiee;
+            nazwisko = nazwiskoo;
             saldo = 0;
             _mechanizmOdsetkowy = mechanizmOdsetkowy;
         }
@@ -92,7 +93,7 @@ namespace Bank
         /// </summary>
         public void PiszHistorie()
         {
-            foreach(var item in historia)
+            foreach (var item in historia)
                 Console.WriteLine(item);
         }
 

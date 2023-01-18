@@ -8,6 +8,7 @@ namespace Bank
         private String numer;
         private String imie, nazwisko;
         private int saldo;
+
         protected ArrayList historia = new ArrayList();
 
         public ArrayList Historia
@@ -22,18 +23,40 @@ namespace Bank
             }
         }
 
+        private int dopuszczalnyDebet;
+        private MechanizmOdsetkowy _mechanizmOdsetkowy;
+
         /// <summary>
         /// Utworzenie rachunku.
         /// </summary>
         /// <param name="numer">Numer rachunku</param>
         /// <param name="imie">Imię właściciela rachunku</param>
         /// <param name="nazwisko">Nazwisko właściciela rachunku</param>
-        public Rachunek(String numer, String imie, String nazwisko)
+        public Rachunek(String numer, String imie, String nazwisko, MechanizmOdsetkowy mechanizmOdsetkowy)
         {
             this.numer = numer;
             this.imie = imie;
             this.nazwisko = nazwisko;
             saldo = 0;
+            _mechanizmOdsetkowy = mechanizmOdsetkowy;
+        }
+
+        public Rachunek(String numer, String imie, String nazwisko)
+        {
+            numer = numer;
+            imie = imie;
+            nazwisko = nazwisko;
+            saldo = 0; 
+            _mechanizmOdsetkowy = new MechanizmOdsetkowyA();
+
+        }
+
+        /// <summary>
+        /// Zmienia mechanizm odsetkowy.
+        /// </summary>
+        public void ZmienMechanizmOdsetkowy(MechanizmOdsetkowy nowyMechanizm)
+        {
+            this._mechanizmOdsetkowy = nowyMechanizm;
         }
         public Rachunek()
         {
@@ -69,7 +92,8 @@ namespace Bank
         /// </summary>
         public void PiszHistorie()
         {
-            Console.WriteLine(historia);
+            foreach(var item in historia)
+                Console.WriteLine(item);
         }
 
         /// <summary>
@@ -107,16 +131,11 @@ namespace Bank
         /// </summary>
         public int Odsetki()
         {
-            int odsetki = 0;
+            var odsetki = _mechanizmOdsetkowy.ObliczOdsetki(Saldo());
+            saldo+=odsetki;
 
-            if (saldo < 10000)
-                odsetki = (int)0.01 * saldo;
-            else if (saldo < 50000)
-                odsetki = 100 + (int)0.02 * (saldo - 10000);
-            else
-                odsetki = 100 + 800 + (int)0.03 * (saldo - 50000);
-
-            historia.Add("Naliczono odsetki w kwocie " + odsetki);
+            historia.Add("Naliczono odsetki w kwocie " + odsetki+", saldo: "+saldo);
+            historia.Add(_mechanizmOdsetkowy.Opis());
 
             return odsetki;
         }

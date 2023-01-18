@@ -19,6 +19,18 @@ namespace Bank
             pkoBp.Przelew("13", "11", 100);
             pkoBp.Przelew(r15, r11, 100);
 
+            pkoBp.UstawDebet(r11, 100);
+            pkoBp.UstawDebet(r11, 200);
+           
+            pkoBp.Szukaj("11").Wyplata(1150);
+            try
+            {
+                Console.WriteLine("R11, dopuszczalny debet: " + (pkoBp.Szukaj("11") as RachunekDebetowy).DopuszczalnyDebet);
+                Console.WriteLine("R11, aktualny debet: " + (pkoBp.Szukaj("11") as RachunekDebetowy).Debet);
+
+            }
+            catch (Exception ex) { };
+
             r11.Odsetki();
             r11.ZmienMechanizmOdsetkowy(new MechanizmOdsetkowyC());
             r11.Wplata(200000);
